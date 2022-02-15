@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Navigation bar component starts here-->
+    <!-- Navigation bar component here-->
     <NavBar />
     <div class="blogs-page">
       <div class="main-content">
@@ -12,19 +12,25 @@
                   <h1>Newest Posts</h1>
                   <hr />
                 </div>
-                <!-- Post component starts here -->
+                <!-- Post component here -->
                 <PostItem
                   v-for="post in posts"
                   :key="post._id"
                   :title="post.title"
                   :subtitle="post.subtitle"
                   :date="post.createdAt"
+                  :isRead="post.isRead"
                 />
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- <form>
+        {{ isFormValid() }}
+        <input type="text" v-model="form.title" />
+        <input type="text" v-model="form.subtitle" />
+      </form> -->
     </div>
   </div>
 </template>
@@ -39,41 +45,34 @@ export default {
   },
   data() {
     return {
-      posts: [
-        {
-          _id: 1,
-          title: "My first post",
-          subtitle: "subtitle 1",
-          createdAt: new Date(),
-        },
-        {
-          _id: 2,
-          title: "My second post",
-          subtitle: "subtitle 2",
-          createdAt: new Date(),
-        },
-        {
-          _id: 3,
-          title: "My third post",
-          subtitle: "subtitle 3",
-          createdAt: new Date(),
-        },
-      ],
+      form: {
+        title: "some title",
+        subtitle: "some subtitle",
+      },
     };
+  },
+  computed: {
+    posts() {
+      return this.$store.state.posts;
+    },
+    /*     isFormValid() {
+      console.log("isFormvalid called");
+      if (this.form.title) {
+        return true;
+      }
+      return false;
+    }, */
+  },
+  methods: {
+    isFormValid() {
+      console.log("is for valid called");
+      if (this.form.title) {
+        return true;
+      }
+      return false;
+    },
   },
 };
 </script>
 
-<style>
-.post-content {
-  font-style: italic;
-}
-.post {
-  margin-bottom: 20px;
-  padding: 5px;
-  border-bottom: 2px solid transparent;
-}
-.post:hover {
-  border-bottom: 2px solid #e8e8e8;
-}
-</style>
+<style></style>

@@ -9,6 +9,7 @@
           />
         </a>
         <div
+          @click="toggleMenu"
           class="navbar-burger burger"
           aria-label="menu"
           aria-expanded="false"
@@ -19,16 +20,21 @@
           <span></span>
         </div>
       </div>
-      <div id="navMenu" class="navbar-menu">
+      <div
+        @click="toggleMenu"
+        :class="{ 'is-active': isActive }"
+        id="navMenu"
+        class="navbar-menu"
+      >
         <div class="navbar-end">
-          <div class="navbar-item has-dropdown">
+          <div
+            :class="{ 'is-active': isActive }"
+            class="navbar-item has-dropdown"
+          >
             <a class="navbar-link"> Menu </a>
             <div class="navbar-dropdown">
-              <a class="navbar-item"> Dashboard </a>
-              <a class="navbar-item"> Profile </a>
-              <a class="navbar-item"> Settings </a>
-              <hr class="navbar-divider" />
-              <div class="navbar-item">Logout</div>
+              <nuxt-link to="/" class="navbar-item"> Home </nuxt-link>
+              <nuxt-link to="/manage" class="navbar-item"> Manage </nuxt-link>
             </div>
           </div>
         </div>
@@ -36,3 +42,19 @@
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      isActive: false,
+      testVar: "1",
+    };
+  },
+  methods: {
+    toggleMenu() {
+      this.isActive = !this.isActive;
+    },
+  },
+};
+</script>
