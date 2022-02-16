@@ -147,4 +147,7 @@ export default {
   cursor: pointer;
   background-color: #eeeeee;
 }
+.post-form {
+  text-align: left;
+}
 </style>

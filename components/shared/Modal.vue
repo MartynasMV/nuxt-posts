@@ -1,6 +1,6 @@
 <template>
-  <div @click="toggleModal">
-    <a class="button is-danger is-block is-bold">
+  <div>
+    <a @click="toggleModal" class="button is-danger is-block is-bold">
       <span class="compose">Create</span>
     </a>
     <div class="modal" :class="{ 'is-active': isActive }">
@@ -9,7 +9,7 @@
         <header class="modal-card-head">
           <p class="modal-card-title">Modal title</p>
           <button
-            @click="toggleModal"
+            @click="isActive = false"
             class="delete"
             aria-label="close"
           ></button>
@@ -37,6 +37,7 @@ export default {
   methods: {
     toggleModal() {
       this.isActive = !this.isActive;
+      console.log(this.isActive);
     },
   },
 };
