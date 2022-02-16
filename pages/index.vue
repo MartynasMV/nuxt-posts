@@ -2,6 +2,7 @@
   <div>
     <!-- Navigation bar component here-->
     <NavBar />
+
     <div class="blogs-page">
       <div class="main-content">
         <div class="container">
@@ -10,6 +11,7 @@
               <div class="section">
                 <div class="title">
                   <h1>Newest Posts</h1>
+
                   <hr />
                 </div>
                 <!-- Post component here -->
@@ -38,6 +40,8 @@
 <script>
 import NavBar from "~/components/NavBar"; /* .vue extension not needed */
 import PostItem from "@/components/PostItem";
+import { fetchPostsAPI } from "~/store/post";
+
 export default {
   components: {
     NavBar,
@@ -51,23 +55,25 @@ export default {
       },
     };
   },
-  //mounted() is called when component is mounted in a DOM
+
   mounted() {
-    debugger;
     this.$store.dispatch("post/fetchPosts"); //because I moved fetchPosts() from store/index.js to store/post.js
+  },
+  /* there are 2 ways getting data with asyncData() and fetch(context), both of it below (commenting out asyncData(), laving fetch(context) as an active one)
+  async asyncData() {
+    const posts = await fetchPostsAPI();
+    return { posts };
+  }, */
+  fetch({ store }) {
+    if (store.getters["post/hasEmptyItems"]) {
+      //used to be if (store.state.post.items.length === 0) {
+      return store.dispatch("post/fetchPosts");
+    }
   },
   computed: {
     posts() {
-      debugger;
       return this.$store.state.post.items; //posts.posts because I moved posts[] from store/index.js to store/post.js
     },
-    /*     isFormValid() {
-      console.log("isFormvalid called");
-      if (this.form.title) {
-        return true;
-      }
-      return false;
-    }, */
   },
   methods: {
     isFormValid() {

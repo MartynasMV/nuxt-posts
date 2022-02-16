@@ -87,9 +87,15 @@ export default {
   data() {
     return {};
   },
+  fetch({ store }) {
+    if (store.getters["post/hasEmptyItems"]) {
+      //used to be if (store.state.post.items.length === 0)
+      return store.dispatch("post/fetchPosts");
+    }
+  },
   computed: {
     ...mapState({
-      posts: (state) => state.post.item, //
+      posts: (state) => state.post.items, //
       /*      state1: () => state.state1
       state2: () => state.state2 */
     }),
