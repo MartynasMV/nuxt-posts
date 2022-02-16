@@ -54,12 +54,12 @@ export default {
   //mounted() is called when component is mounted in a DOM
   mounted() {
     debugger;
-    this.$store.dispatch("fetchPosts");
+    this.$store.dispatch("post/fetchPosts"); //because I moved fetchPosts() from store/index.js to store/post.js
   },
   computed: {
     posts() {
       debugger;
-      return this.$store.state.posts;
+      return this.$store.state.post.items; //posts.posts because I moved posts[] from store/index.js to store/post.js
     },
     /*     isFormValid() {
       console.log("isFormvalid called");

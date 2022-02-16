@@ -89,7 +89,7 @@ export default {
   },
   computed: {
     ...mapState({
-      posts: (state) => state.posts,
+      posts: (state) => state.post.item, //
       /*      state1: () => state.state1
       state2: () => state.state2 */
     }),
