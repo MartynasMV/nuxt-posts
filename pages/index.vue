@@ -51,8 +51,14 @@ export default {
       },
     };
   },
+  //mounted() is called when component is mounted in a DOM
+  mounted() {
+    debugger;
+    this.$store.dispatch("fetchPosts");
+  },
   computed: {
     posts() {
+      debugger;
       return this.$store.state.posts;
     },
     /*     isFormValid() {
