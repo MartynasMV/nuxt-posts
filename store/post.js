@@ -39,7 +39,9 @@ export const actions = {
     const index = state.items.findIndex((post) => {
       return post._id === postData._id;
     });
-    commit("replacePost", { post: postData, index });
+    if (index !== -1) {
+      commit("replacePost", { post: postData, index });
+    }
   },
 };
 //Mutations are simple functions which have access to a state.
