@@ -21,11 +21,6 @@
 <script>
 import moment from "moment";
 export default {
-  /*   data() {
-    return {
-      moment,
-    };
-  }, */
   props: {
     title: {
       type: String,

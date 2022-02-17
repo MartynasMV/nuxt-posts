@@ -1,4 +1,5 @@
 import { INITIAL_DATA } from "./index";
+
 //simulating req to a server
 export function fetchPostsAPI() {
   return new Promise((resolve, reject) => {
@@ -27,11 +28,20 @@ export const actions = {
       context.commit("setPosts", posts);
     });
   },
+  createPost({ commit }, postData) {
+    //create post on a server or persist data in some way
+    postData._id = Math.random().toString(36).substring(2, 9); //creating new IDs since newly created posts dont have it
+    postData.createdAt = new Date(); //creating data for new posts
+    commit("addPost", postData);
+  },
 };
 //Mutations are simple functions which have access to a state.
 //Mutations are used to assign values to a state.
 export const mutations = {
   setPosts(state, posts) {
     state.items = posts;
+  },
+  addPost(state, post) {
+    state.items.push(post);
   },
 };

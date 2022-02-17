@@ -5,44 +5,7 @@
     <div class="manage-page">
       <div class="columns mail-app">
         <aside class="column is-2 aside hero">
-          <div>
-            <div class="compose has-text-centered">
-              <Modal>
-                <form class="post-form">
-                  <div class="field">
-                    <label class="label">Title</label>
-                    <div class="control">
-                      <input
-                        class="input"
-                        type="text"
-                        placeholder="Awesome Title"
-                      />
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Subtitle</label>
-                    <div class="control">
-                      <input
-                        class="input"
-                        type="email"
-                        placeholder="Awesome subtitle"
-                      />
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label class="label">Content</label>
-                    <div class="control">
-                      <textarea
-                        class="textarea"
-                        placeholder="Awesome Content"
-                      ></textarea>
-                    </div>
-                  </div>
-                </form>
-              </Modal>
-            </div>
-            <div class="main"></div>
-          </div>
+          <PostCreate />
         </aside>
         <div class="column is-4 messages hero is-fullheight" id="message-feed">
           <div class="inbox-messages" id="inbox-messages">
@@ -50,7 +13,7 @@
             <div v-for="post in posts" :key="post._id" class="card">
               <div class="card-content">
                 <div class="msg-header">
-                  <span class="msg-from"><small>From Filip Jerga</small></span>
+                  <span class="msg-from"><small>From Martynas</small></span>
                   <span class="msg-timestamp"></span>
                   <span class="msg-attachment"
                     ><i class="fa fa-paperclip"></i
@@ -112,12 +75,11 @@
 <script>
 import Navbar from "@/components/NavBar";
 import { mapState } from "vuex";
-import Modal from "@/components/shared/Modal";
+import PostCreate from "@/components/PostCreate";
+
 export default {
-  components: { Navbar, Modal },
-  data() {
-    return {};
-  },
+  components: { Navbar, PostCreate },
+
   fetch({ store }) {
     if (store.getters["post/hasEmptyItems"]) {
       //used to be if (store.state.post.items.length === 0)
@@ -146,8 +108,5 @@ export default {
 .card:hover {
   cursor: pointer;
   background-color: #eeeeee;
-}
-.post-form {
-  text-align: left;
 }
 </style>
