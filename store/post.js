@@ -1,4 +1,5 @@
 import { INITIAL_DATA } from "./index";
+import Vue from "vue";
 
 //simulating req to a server
 export function fetchPostsAPI() {
@@ -34,6 +35,12 @@ export const actions = {
     postData.createdAt = new Date(); //creating data for new posts
     commit("addPost", postData);
   },
+  updatePost({ commit, state }, postData) {
+    const index = state.items.findIndex((post) => {
+      return post._id === postData._id;
+    });
+    commit("replacePost", { post: postData, index });
+  },
 };
 //Mutations are simple functions which have access to a state.
 //Mutations are used to assign values to a state.
@@ -43,5 +50,8 @@ export const mutations = {
   },
   addPost(state, post) {
     state.items.push(post);
+  },
+  replacePost(state, { post, index }) {
+    Vue.set(state.items, index, post);
   },
 };

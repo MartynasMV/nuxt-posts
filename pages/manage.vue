@@ -5,12 +5,21 @@
     <div class="manage-page">
       <div class="columns mail-app">
         <aside class="column is-2 aside hero">
+          <!-- Post Create here -->
           <PostCreate />
         </aside>
         <div class="column is-4 messages hero is-fullheight" id="message-feed">
           <div class="inbox-messages" id="inbox-messages">
             <!-- Card starts -->
-            <div v-for="post in posts" :key="post._id" class="card">
+            <div
+              v-for="post in posts"
+              :key="post._id"
+              @click="activatePost(post)"
+              class="card"
+              :class="{
+                'is-active': activePost && post._id === activePost._id,
+              }"
+            >
               <div class="card-content">
                 <div class="msg-header">
                   <span class="msg-from"><small>From Martynas</small></span>
@@ -32,22 +41,10 @@
             <!-- Card ends -->
           </div>
         </div>
-        <div
-          class="column is-6 message hero is-fullheight is-hidden"
-          id="message-pane"
-        >
+        <div class="column is-6 message hero is-fullheight" id="message-pane">
           <div class="box message-preview">
-            <div class="top">
-              <div class="avatar">
-                <img src="https://placehold.it/128x128" />
-              </div>
-              <div class="address">
-                <div class="name">John Smith</div>
-                <div class="email">someone@gmail.com</div>
-              </div>
-              <hr />
-              <div class="content"></div>
-            </div>
+            <!-- PostManage here -->
+            <PostManage :postData="activePost" />
           </div>
         </div>
       </div>
@@ -76,22 +73,37 @@
 import Navbar from "@/components/NavBar";
 import { mapState } from "vuex";
 import PostCreate from "@/components/PostCreate";
+import PostManage from "@/components/PostManage";
 
 export default {
-  components: { Navbar, PostCreate },
-
+  components: { Navbar, PostCreate, PostManage },
+  data() {
+    return {
+      activePost: {},
+    };
+  },
+  computed: {
+    ...mapState({
+      posts: (state) => state.post.items,
+    }),
+  },
   fetch({ store }) {
     if (store.getters["post/hasEmptyItems"]) {
       //used to be if (store.state.post.items.length === 0)
       return store.dispatch("post/fetchPosts");
     }
   },
-  computed: {
-    ...mapState({
-      posts: (state) => state.post.items, //
-      /*      state1: () => state.state1
-      state2: () => state.state2 */
-    }),
+  //here its selecting and cloning the data from the first post to the postManage
+  created() {
+    if (this.posts && this.posts.length > 0) {
+      this.activePost = this.posts[0];
+    }
+  },
+  //when clicking Im updating my activePost and sending new props to the child component
+  methods: {
+    activatePost(post) {
+      this.activePost = post;
+    },
   },
 };
 </script>
@@ -103,10 +115,12 @@ export default {
 
 .card {
   margin-bottom: 10px;
-}
-
-.card:hover {
-  cursor: pointer;
-  background-color: #eeeeee;
+  &.is-active {
+    background-color: #eeeeee;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: #eeeeee;
+  }
 }
 </style>
