@@ -26,13 +26,8 @@ async function start() {
   });
 
   // Give nuxt middleware to express
-
-  //when I am making reqest to localhost:3000/api/posts i will return the function below and will return data
-  /*   app.get("/api/posts", function (req, res) {
-    return res.json({ posts: "testing endpoint" });
-  });
- */
   app.use(nuxt.render);
+
   // Listen the server
   app.listen(port, host);
   consola.ready({
