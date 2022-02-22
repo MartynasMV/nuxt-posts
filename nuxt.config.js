@@ -13,6 +13,8 @@ module.exports = {
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    //importing Marked below:
+    script: [{ src: "https://cdn.jsdelivr.net/npm/marked/marked.min.js" }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

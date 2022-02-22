@@ -12,6 +12,7 @@ export function fetchPostsAPI() {
 export const state = () => {
   return {
     items: [],
+    archivedItems: [],
   };
 };
 //getters are like computed properties but for Vuex
@@ -22,10 +23,39 @@ export const getters = {
 };
 //actions is a good spot to send a request to a server. Usually Actions resolve into some data.
 export const actions = {
+  getArchivedPosts({ commit }) {
+    const archivedPosts = localStorage.getItem("archived_posts");
+    if (archivedPosts) {
+      commit("setArchivedPosts", JSON.parse(archivedPosts));
+      return archivedPosts;
+    } else {
+      localStorage.setItem("archived_posts", JSON.stringify([]));
+      return [];
+    }
+  },
+
+  togglePost({ state, commit, dispatch }, postId) {
+    if (state.archivedItems.includes(postId)) {
+      //remove post id
+      const index = state.archivedItems.findIndex((pId) => pId === postId);
+      commit("removeArchivedPost", index);
+      dispatch("persistArchivedPosts");
+      return postId;
+    } else {
+      //add post id
+      commit("addArchivedPost", postId);
+      dispatch("persistArchivedPosts");
+      return postId;
+    }
+  },
+  persistArchivedPosts({ state }) {
+    localStorage.setItem("archived_posts", JSON.stringify(state.archivedItems));
+  },
+
   fetchPosts(context) {
     //previously it was fetchPosts(context) it was replaced with fetchPosts({ commit})
     //with context we are accessing a lot of data like in this example - commit()
-    return fetchPostsAPI().then((posts) => {
+    return this.$axios.$get("/api/posts").then((posts) => {
       context.commit("setPosts", posts);
     });
   },
@@ -67,9 +97,17 @@ export const actions = {
     }
   },
 };
-//Mutations are simple functions which have access to a state.
-//Mutations are used to assign values to a state.
+
 export const mutations = {
+  setArchivedPosts(state, archivedPosts) {
+    state.archivedItems = archivedPosts;
+  },
+  addArchivedPost(state, postId) {
+    state.archivedItems.push(postId);
+  },
+  removeArchivedPost(state, index) {
+    state.archivedItems.splice(index, 1);
+  },
   setPosts(state, posts) {
     state.items = posts;
   },

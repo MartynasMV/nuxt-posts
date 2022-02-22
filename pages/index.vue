@@ -23,6 +23,7 @@
                     :subtitle="post.subtitle"
                     :date="post.createdAt"
                     :isRead="post.isRead"
+                    :id="post._id"
                   />
                 </div>
                 <div v-else>There are no posts</div>
@@ -60,13 +61,9 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("post/fetchPosts"); //because I moved fetchPosts() from store/index.js to store/post.js
+    this.$store.dispatch("post/getArchivedPosts");
   },
-  /* there are 2 ways getting data with asyncData() and fetch(context), both of it below (commenting out asyncData(), laving fetch(context) as an active one)
-  async asyncData() {
-    const posts = await fetchPostsAPI();
-    return { posts };
-  }, */
+
   fetch({ store }) {
     if (store.getters["post/hasEmptyItems"]) {
       //used to be if (store.state.post.items.length === 0) {
@@ -75,7 +72,10 @@ export default {
   },
   computed: {
     posts() {
-      return this.$store.state.post.items; //posts.posts because I moved posts[] from store/index.js to store/post.js
+      return this.$store.state.post.items;
+    },
+    archivedPosts() {
+      return this.$store.state.post.archivedItems;
     },
   },
   methods: {

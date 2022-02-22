@@ -11,7 +11,7 @@
     </div>
     <div class="post-right">
       <label class="checkbox">
-        <input type="checkbox" :checked="isRead" />
+        <input @click="togglePost" type="checkbox" :checked="isArchived" />
         Read
       </label>
     </div>
@@ -22,6 +22,10 @@
 import moment from "moment";
 export default {
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -33,26 +37,23 @@ export default {
     date: {
       type: Number,
       required: false,
-      //default:
     },
     isRead: {
       type: Boolean,
     },
   },
-  methods: {
-    /*     test1(message) {
-      console.log(message);
-      return message;
+  computed: {
+    archivedPosts() {
+      return this.$store.state.post.archivedItems;
     },
-    test2() {
-      return this.test1("Test");
-    }, */
-    /* formatDate() {
-      return moment(this.date).format("LLL");
-    }, */
-    /*     formatDate(date) {
-      return moment(date).format("LLL");
-    }, */
+    isArchived() {
+      return this.archivedPosts.includes(this.id);
+    },
+  },
+  methods: {
+    togglePost() {
+      this.$store.dispatch("post/togglePost", this.id);
+    },
   },
 };
 </script>

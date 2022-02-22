@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.get("/posts", function (req, res) {
-  return res.json({ posts: "Just some testing data" });
+  return res.json(initialData.posts);
 });
 
 app.post("/posts", function (req, res) {
@@ -17,6 +17,7 @@ app.post("/posts", function (req, res) {
   fs.writeFile(
     path.join(__dirname, filePath),
     JSON.stringify(initialData, null, 2),
+    //null and 2 so Json would be indented 2 spaces and every new key variable would be on a new line
     function (err) {
       if (err) {
         return res.status(422).send(err);
@@ -24,7 +25,6 @@ app.post("/posts", function (req, res) {
       console.log("sending data to client");
       return res.json({ message: "file Successfully updated" });
     }
-    //null and 2 so Json would be indented 2 spaces and every new key variable would be on a new line
   );
 });
 
