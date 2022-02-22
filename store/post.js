@@ -1,4 +1,4 @@
-import { INITIAL_DATA } from "./index";
+import INITIAL_DATA from "./initial_data.json";
 import Vue from "vue";
 
 //simulating req to a server
@@ -6,7 +6,7 @@ export function fetchPostsAPI() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(INITIAL_DATA.posts);
-    }, 200);
+    }, 0);
   });
 }
 export const state = () => {
@@ -32,15 +32,38 @@ export const actions = {
   createPost({ commit }, postData) {
     //create post on a server or persist data in some way
     postData._id = Math.random().toString(36).substring(2, 9); //creating new IDs since newly created posts dont have it
-    postData.createdAt = new Date(); //creating data for new posts
-    commit("addPost", postData);
+    postData.createdAt = new Date().getTime();
+    return this.$axios
+      .$post("http://localhost:3000/api/posts", postData)
+      .then((res) => {
+        console.log(res);
+        commit("addPost", postData);
+        return postData;
+      });
   },
   updatePost({ commit, state }, postData) {
     const index = state.items.findIndex((post) => {
       return post._id === postData._id;
     });
     if (index !== -1) {
-      commit("replacePost", { post: postData, index });
+      return this.$axios
+        .$patch(`/api/posts/${postData._id}`, postData)
+        .then((res) => {
+          console.log(res);
+          commit("replacePost", { post: postData, index });
+          return postData;
+        });
+    }
+  },
+  deletePost({ commit, state }, postId) {
+    const index = state.items.findIndex((post) => {
+      return post._id === postId;
+    });
+    if (index !== -1) {
+      return this.$axios.$delete(`/api/posts/${postId}`).then((res) => {
+        commit("deletePost", index);
+        return postId;
+      });
     }
   },
 };
@@ -55,5 +78,8 @@ export const mutations = {
   },
   replacePost(state, { post, index }) {
     Vue.set(state.items, index, post);
+  },
+  deletePost(state, postIndex) {
+    state.items.splice(postIndex, 1);
   },
 };

@@ -9,7 +9,11 @@
           <PostCreate />
         </aside>
         <div class="column is-4 messages hero is-fullheight" id="message-feed">
-          <div class="inbox-messages" id="inbox-messages">
+          <div
+            v-if="posts && posts.length > 0"
+            class="inbox-messages"
+            id="inbox-messages"
+          >
             <!-- Card starts -->
             <div
               v-for="post in posts"
@@ -40,9 +44,15 @@
             </div>
             <!-- Card ends -->
           </div>
+          <div v-else class="inbox-messages no-posts-title">
+            There are no posts to display
+          </div>
         </div>
         <div class="column is-6 message hero is-fullheight" id="message-pane">
-          <div class="box message-preview">
+          <div v-if="activePost" class="box message-preview">
+            <button @click="deletePost" class="button is-danger delete-button">
+              Delete
+            </button>
             <!-- PostManage here -->
             <PostManage :postData="activePost" />
           </div>
@@ -79,7 +89,7 @@ export default {
   components: { Navbar, PostCreate, PostManage },
   data() {
     return {
-      activePost: {},
+      activePost: null,
     };
   },
   computed: {
@@ -95,14 +105,28 @@ export default {
   },
   //here its selecting and cloning the data from the first post to the postManage
   created() {
-    if (this.posts && this.posts.length > 0) {
-      this.activePost = this.posts[0];
-    }
+    this.setInitialActivePost();
   },
   //when clicking Im updating my activePost and sending new props to the child component
   methods: {
     activatePost(post) {
       this.activePost = post;
+    },
+    setInitialActivePost() {
+      if (this.posts && this.posts.length > 0) {
+        this.activePost = this.posts[0];
+      } else {
+        this.activePost = null;
+      }
+    },
+    deletePost() {
+      if (this.activePost) {
+        this.$store
+          .dispatch("post/deletePost", this.activePost._id)
+          .then(() => {
+            this.setInitialActivePost();
+          });
+      }
     },
   },
 };
@@ -122,5 +146,14 @@ export default {
     cursor: pointer;
     background-color: #eeeeee;
   }
+}
+.no-posts-title {
+  font-size: 25px;
+}
+.delete-button {
+  display: block;
+  width: 100px;
+  margin-left: auto;
+  margin-right: 0;
 }
 </style>

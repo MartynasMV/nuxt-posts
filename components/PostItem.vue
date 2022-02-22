@@ -31,7 +31,7 @@ export default {
       required: false,
     },
     date: {
-      type: Date,
+      type: Number,
       required: false,
       //default:
     },

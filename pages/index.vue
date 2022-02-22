@@ -15,14 +15,17 @@
                   <hr />
                 </div>
                 <!-- Post component here -->
-                <PostItem
-                  v-for="post in posts"
-                  :key="post._id"
-                  :title="post.title"
-                  :subtitle="post.subtitle"
-                  :date="post.createdAt"
-                  :isRead="post.isRead"
-                />
+                <div v-if="posts && posts.length > 0">
+                  <PostItem
+                    v-for="post in posts"
+                    :key="post._id"
+                    :title="post.title"
+                    :subtitle="post.subtitle"
+                    :date="post.createdAt"
+                    :isRead="post.isRead"
+                  />
+                </div>
+                <div v-else>There are no posts</div>
               </div>
             </div>
           </div>
