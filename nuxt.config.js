@@ -16,7 +16,6 @@ module.exports = {
     //importing Marked below:
     script: [{ src: "https://cdn.jsdelivr.net/npm/marked/marked.min.js" }],
   },
-
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 

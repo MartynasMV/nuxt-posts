@@ -41,7 +41,7 @@
       </div>
       <div class="markdown">
         <label class="label">Content Preview</label>
-        <div v-html="compiledMarkdown()"></div>
+        <div v-html="compiledMarkdown"></div>
       </div>
     </form>
   </Modal>
@@ -59,26 +59,26 @@ export default {
       },
     };
   },
-
+  computed: {
+    compiledMarkdown() {
+      if (process.client) {
+        return marked(this.form.content, { sanitize: true });
+      }
+      return "";
+    },
+  },
   methods: {
     createPost({ closeModal, data }) {
       //dispatch action with our form data
       //console.log(this.form);
       this.$store.dispatch("post/createPost", { ...this.form });
       closeModal(); //to hide the modal after closing
-      console.log(data);
       this.resetForm();
     },
     resetForm() {
       this.form.title = "";
       this.form.subtitle = "";
       this.form.content = "";
-    },
-    compiledMarkdown() {
-      if (process.client) {
-        return marked(this.form.content, { sanitize: true });
-      }
-      return "";
     },
   },
 };
