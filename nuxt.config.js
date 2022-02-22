@@ -1,4 +1,5 @@
-export default {
+module.exports = {
+  telemetry: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "nuxt-posts",
