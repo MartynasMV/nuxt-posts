@@ -62,7 +62,7 @@ export default {
   computed: {
     compiledMarkdown() {
       if (process.client) {
-        return marked(this.form.content, { sanitize: true });
+        return marked.marked(this.form.content, { sanitize: true });
       }
       return "";
     },

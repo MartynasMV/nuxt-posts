@@ -13,6 +13,7 @@ export const state = () => {
   return {
     items: [],
     archivedItems: [],
+    item: {},
   };
 };
 //getters are like computed properties but for Vuex
@@ -57,6 +58,14 @@ export const actions = {
     //with context we are accessing a lot of data like in this example - commit()
     return this.$axios.$get("/api/posts").then((posts) => {
       context.commit("setPosts", posts);
+      return posts;
+    });
+  },
+  fetchPostById({ commit }, postId) {
+    return this.$axios.$get("/api/posts").then((posts) => {
+      const selectedPost = posts.find((p) => p._id === postId);
+      commit("setPost", selectedPost);
+      return selectedPost;
     });
   },
   createPost({ commit }, postData) {
@@ -110,6 +119,9 @@ export const mutations = {
   },
   setPosts(state, posts) {
     state.items = posts;
+  },
+  setPost(state, post) {
+    state.item = post;
   },
   addPost(state, post) {
     state.items.push(post);

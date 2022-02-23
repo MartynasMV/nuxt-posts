@@ -11,10 +11,9 @@
               <div class="section">
                 <div class="title">
                   <h1>Newest Posts</h1>
-
                   <hr />
                 </div>
-                <!-- Post component here -->
+                <!-- Post component  -->
                 <div v-if="posts && posts.length > 0">
                   <PostItem
                     v-for="post in posts"
@@ -32,17 +31,12 @@
           </div>
         </div>
       </div>
-      <!-- <form>
-        {{ isFormValid() }}
-        <input type="text" v-model="form.title" />
-        <input type="text" v-model="form.subtitle" />
-      </form> -->
     </div>
   </div>
 </template>
 
 <script>
-import NavBar from "~/components/NavBar"; /* .vue extension not needed */
+import NavBar from "~/components/NavBar";
 import PostItem from "@/components/PostItem";
 import { fetchPostsAPI } from "~/store/post";
 
