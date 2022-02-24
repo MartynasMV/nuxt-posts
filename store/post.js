@@ -16,13 +16,13 @@ export const state = () => {
     item: {},
   };
 };
-//getters are like computed properties but for Vuex
+
 export const getters = {
   hasEmptyItems(state) {
     return state.items.length === 0;
   },
 };
-//actions is a good spot to send a request to a server. Usually Actions resolve into some data.
+//Actions
 export const actions = {
   getArchivedPosts({ commit }) {
     const archivedPosts = localStorage.getItem("archived_posts");
@@ -37,13 +37,11 @@ export const actions = {
 
   togglePost({ state, commit, dispatch }, postId) {
     if (state.archivedItems.includes(postId)) {
-      //remove post id
       const index = state.archivedItems.findIndex((pId) => pId === postId);
       commit("removeArchivedPost", index);
       dispatch("persistArchivedPosts");
       return postId;
     } else {
-      //add post id
       commit("addArchivedPost", postId);
       dispatch("persistArchivedPosts");
       return postId;
@@ -56,10 +54,13 @@ export const actions = {
   fetchPosts(context) {
     //previously it was fetchPosts(context) it was replaced with fetchPosts({ commit})
     //with context we are accessing a lot of data like in this example - commit()
-    return this.$axios.$get("/api/posts").then((posts) => {
-      context.commit("setPosts", posts);
-      return posts;
-    });
+    return this.$axios
+      .$get("/api/posts")
+      .then((posts) => {
+        context.commit("setPosts", posts);
+        return posts;
+      })
+      .catch((error) => console.log(error));
   },
   fetchPostById({ commit }, postId) {
     return this.$axios.$get("/api/posts").then((posts) => {
@@ -106,7 +107,7 @@ export const actions = {
     }
   },
 };
-
+//mutations
 export const mutations = {
   setArchivedPosts(state, archivedPosts) {
     state.archivedItems = archivedPosts;

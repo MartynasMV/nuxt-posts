@@ -1,18 +1,18 @@
 {
   "posts": [
     {
-      "title": "A new post with title",
-      "subtitle": "subtitle",
-      "content": "Content",
-      "_id": "xe9plsk",
-      "createdAt": 1645609283984
+      "title": "Test title1",
+      "subtitle": "Test subtitle1",
+      "content": "Test Content1",
+      "_id": "1efnxv0",
+      "createdAt": 1645696741627
     },
     {
-      "title": "Test1",
-      "subtitle": "Test subtitle",
-      "content": "Content",
-      "_id": "bt9jsz3",
-      "createdAt": 1645609682612
+      "title": "Test title 2",
+      "subtitle": "Test subtitle 2",
+      "content": "Content test",
+      "_id": "wm3zjmh",
+      "createdAt": 1645696759856
     }
   ]
 }
